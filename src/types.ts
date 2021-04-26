@@ -1,4 +1,4 @@
-import { TextChannel, DMChannel, NewsChannel } from 'discord.js';
+import { Message, Client } from 'discord.js';
 import { Logger } from 'winston';
 
 export interface BaseDI {
@@ -6,5 +6,6 @@ export interface BaseDI {
 }
 
 export interface DI extends BaseDI {
-  channel: TextChannel | DMChannel | NewsChannel;
+  message: Message;
+  client: Client;
 }

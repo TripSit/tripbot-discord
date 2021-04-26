@@ -1,9 +1,11 @@
-import { Message } from 'discord.js';
+import { User } from 'discord.js';
 import help from './help';
+import barExam from './bar-exam';
 import { DI } from '../types';
 
-export type Command = (deps: DI, ...args: unknown[]) => Promise<Message>;
+export type Command = (deps: DI, ...args: Array<string | User>) => Promise<void>;
 
 export default {
-  help: async (message: DI): Promise<Message> => help(message),
+  help,
+  barExam,
 } as Record<string, Command>;

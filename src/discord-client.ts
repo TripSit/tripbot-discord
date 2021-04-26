@@ -5,7 +5,7 @@ import { BaseDI } from './types';
 
 export default async function createDiscordClient(deps: BaseDI): Promise<Client> {
   const client = new Client();
-  client.on('message', commandMiddleware(deps));
+  client.on('message', commandMiddleware({ client, ...deps }));
   await client.login(DISCORD_BOT_TOKEN);
   return client;
 }
