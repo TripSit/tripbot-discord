@@ -1,21 +1,15 @@
-import { Client, Message } from 'discord.js';
-import commands, { Command } from '../commands';
-import { COMMAND_PREFIX } from '../env';
-import { BaseDI } from '../types';
+'use strict';
 
-interface BaseDIWithClient extends BaseDI {
-  client: Client;
-}
+const commands = require('../commands');
+const { COMMAND_PREFIX } = require('../env');
 
-export default function commandMiddleware(
-  { client, logger }: BaseDIWithClient,
-): (message: Message) => void {
+module.exports = function commandMiddleware({ client, logger }) {
   return async (message) => {
     // Only recognize messages starting with the command prefix
     if (message.content.trim().startsWith(COMMAND_PREFIX)) {
       // Break message up into arguments
-      const [commandName, ...rawArgs]: string[] = message.content.trim().slice(1).split(/\s+/g);
-      const command: Command = commands[commandName];
+      const [commandName, ...rawArgs] = message.content.trim().slice(1).split(/\s+/g);
+      const command = commands[commandName];
 
       // Parse user tags into User objects
       const args = rawArgs.map((arg) => {
@@ -34,4 +28,4 @@ export default function commandMiddleware(
       }
     }
   };
-}
+};

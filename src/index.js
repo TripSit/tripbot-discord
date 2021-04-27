@@ -1,5 +1,7 @@
-import createDiscordClient from './discord-client';
-import createLogger from './logger';
+'use strict';
+
+const createDiscordClient = require('./discord-client');
+const createLogger = require('./logger');
 
 const logger = createLogger();
 

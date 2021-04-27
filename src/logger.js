@@ -1,8 +1,10 @@
-import * as path from 'path';
-import winston, { Logger } from 'winston';
-import { NODE_ENV, LOG_PATH } from './env';
+'use strict';
 
-export default function createLogger(): Logger {
+const path = require('path');
+const winston = require('winston');
+const { NODE_ENV, LOG_PATH } = require('./env');
+
+module.exports = function createLogger() {
   const logger = winston.createLogger({
     level: 'info',
     format: winston.format.simple(),
@@ -20,4 +22,4 @@ export default function createLogger(): Logger {
   }
 
   return logger;
-}
+};
