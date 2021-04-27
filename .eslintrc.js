@@ -18,6 +18,7 @@ module.exports = {
       files: [
         '**/__tests__/*.test.js',
         '**/__mocks__/*.js',
+        'jest.setup.js',
       ],
       extends: ['plugin:jest/all'],
       parserOptions: {
@@ -30,6 +31,7 @@ module.exports = {
         'jest/require-top-level-describe': 0,
         'jest/no-hooks': 0,
         'jest/prefer-expect-assertions': 0,
+        'jest/no-disabled-tests': 0,
       },
     },
   ],
