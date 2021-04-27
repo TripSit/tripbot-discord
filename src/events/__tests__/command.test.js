@@ -8,6 +8,11 @@ const logger = require('../../logger');
 const commands = require('../../commands');
 
 const send = jest.fn();
+const client = {
+  users: {
+    cache: { get: jest.fn() },
+  },
+};
 
 test('only does anything when message contents starts with the command prefix', async () => {
   await command({ logger })({
@@ -38,7 +43,6 @@ test.skip('command errors', async () => {
     channel: { send },
     content: '~mockCommand yo yo',
   };
-  const client = { a: 'b' };
 
   await command({ logger, client })(message);
 
@@ -56,11 +60,24 @@ test('success', async () => {
     channel: { send },
     content: '~mockCommand ay yo',
   };
-  const client = { a: 'b' };
 
   await expect(command({ logger, client })(message)).resolves.toBeUndefined();
   expect(send).not.toHaveBeenCalled();
   expect(logger.error).not.toHaveBeenCalled();
   expect(commands.mockCommand).toHaveBeenCalledTimes(1);
   expect(commands.mockCommand).toHaveBeenCalledWith({ message, client, logger }, 'ay', 'yo');
+});
+
+test('parses mention arguments', async () => {
+  commands.mockCommand.mockResolvedValue(undefined);
+
+  const message = {
+    channel: { send },
+    content: '~mockCommand ay <@SWAGMAN> yo',
+  };
+
+  await expect(command({ logger, client })(message)).resolves.toBeUndefined();
+  expect(send).not.toHaveBeenCalled();
+  expect(logger.error).not.toHaveBeenCalled();
+  expect(client.users.cache.get).toHaveBeenCalledWith('SWAGMAN');
 });

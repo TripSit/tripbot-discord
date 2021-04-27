@@ -1,12 +1,12 @@
 'use strict';
 
 const { Client } = require('discord.js');
-const commandMiddleware = require('./middleware/command');
+const events = require('./events');
 const { DISCORD_BOT_TOKEN } = require('./env');
 
 module.exports = async function createDiscordClient(deps) {
   const client = new Client();
-  client.on('message', commandMiddleware({ client, ...deps }));
+  Object.values(events).forEach((applyEvent) => applyEvent(client, deps));
   await client.login(DISCORD_BOT_TOKEN);
   return client;
 };

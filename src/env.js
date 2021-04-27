@@ -13,3 +13,4 @@ exports.DISCORD_BOT_TOKEN = process.env.DISCORD_BOT_TOKEN;
 exports.COMMAND_PREFIX = process.env.COMMAND_PREFIX;
 
 exports.LOG_PATH = path.resolve(process.env.LOG_PATH);
+exports.DB_PATH = path.resolve(process.env.DB_PATH);
