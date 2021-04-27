@@ -3,8 +3,8 @@
 const commands = require('../commands');
 const { COMMAND_PREFIX } = require('../env');
 
-module.exports = function command(client, { logger }) {
-  client.on('message', async (message) => {
+module.exports = function command({ client, logger }) {
+  return async (message) => {
     // Only recognize messages starting with the command prefix
     if (message.content.trim().startsWith(COMMAND_PREFIX)) {
       // Break message up into arguments
@@ -30,5 +30,5 @@ module.exports = function command(client, { logger }) {
         message.channel.send('There was an error processing your request.');
       }
     }
-  });
+  };
 };

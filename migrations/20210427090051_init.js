@@ -2,7 +2,14 @@
 
 exports.up = async function up(knex) {
   return knex.schema.createTable('users', (table) => {
-
+    table
+      .text('discordId')
+      .notNullable()
+      .unique();
+    table
+      .timestamp('created_at')
+      .notNullable()
+      .defaultTo(knex.fn.now());
   });
 };
 

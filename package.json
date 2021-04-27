@@ -13,6 +13,7 @@
   "author": "",
   "license": "APL-2",
   "dependencies": {
+    "db-errors": "^0.2.3",
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "knex": "^0.95.4",

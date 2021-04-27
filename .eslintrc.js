@@ -32,6 +32,8 @@ module.exports = {
         'jest/no-hooks': 0,
         'jest/prefer-expect-assertions': 0,
         'jest/no-disabled-tests': 0,
+        'jest/consistent-test-it': 0,
+        'jest/prefer-strict-equal': 0,
       },
     },
   ],
