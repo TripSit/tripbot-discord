@@ -3,7 +3,7 @@
 const commands = require('../commands');
 const { COMMAND_PREFIX } = require('../env');
 
-module.exports = function command({ client, logger }) {
+module.exports = function command({ client, logger, ...deps }) {
   return async (message) => {
     // Only recognize messages starting with the command prefix
     if (message.content.trim().startsWith(COMMAND_PREFIX)) {
@@ -23,7 +23,12 @@ module.exports = function command({ client, logger }) {
             return arg;
           });
 
-          await cmd({ message, client, logger }, ...args);
+          await cmd({
+            message,
+            client,
+            logger,
+            ...deps,
+          }, ...args);
         }
       } catch (ex) {
         logger.error(ex);

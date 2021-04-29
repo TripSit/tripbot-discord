@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "start": "NODE_ENV=production node ./dist",
-    "dev": "NODE_ENV=development nodemon 'src/index.ts' -e ts -x 'ts-node'",
+    "dev": "NODE_ENV=development nodemon src",
     "test": "npm run lint && npm run test:unit",
     "test:unit": "NODE_ENV=test jest",
     "lint": "eslint ."
@@ -13,11 +13,13 @@
   "author": "",
   "license": "APL-2",
   "dependencies": {
+    "@apollo/client": "^3.3.15",
     "db-errors": "^0.2.3",
     "discord.js": "^12.5.3",
     "dotenv": "^8.2.0",
     "knex": "^0.95.4",
     "knex-stringcase": "^1.4.5",
+    "react": "^17.0.2",
     "sqlite3": "^5.0.2",
     "winston": "^3.3.3"
   },
