@@ -21,5 +21,10 @@ module.exports = function createLogger() {
     logger.add(new winston.transports.Console({ format: winston.format.simple() }));
   }
 
-  return logger;
+  return {
+    ...logger,
+    serviceMessage(service, message) {
+      logger.info(`[${service.toUpperCase()}] ${message}`);
+    },
+  };
 };

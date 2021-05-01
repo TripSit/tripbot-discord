@@ -11,8 +11,9 @@ createDiscordClient({
   logger,
   db: knex(knexConfig),
 })
-  .then(() => {
-    logger.info('Tripbot started...');
+  .then((client) => {
+    logger.serviceMessage('bootstrap', 'Tripbot started');
+    return client;
   })
   .catch((ex) => {
     logger.error(ex);

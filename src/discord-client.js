@@ -6,7 +6,7 @@ const { DISCORD_BOT_TOKEN } = require('./env');
 
 module.exports = async function createDiscordClient(deps) {
   const client = new Client();
-  Object.values(events).forEach((applyEvent) => applyEvent(client, deps));
   await client.login(DISCORD_BOT_TOKEN);
+  await Promise.all(Object.values(events).map((applyEvent) => applyEvent({ client, ...deps })));
   return client;
 };
