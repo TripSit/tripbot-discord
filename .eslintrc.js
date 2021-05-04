@@ -2,27 +2,34 @@
 
 module.exports = {
   root: true,
-  extends: ['airbnb-base'],
+  extends: [
+    'airbnb-typescript',
+    'plugin:@typescript-eslint/recommended',
+    'plugin:@typescript-eslint/recommended-requiring-type-checking',
+  ],
   parserOptions: {
-    sourceType: 'script',
+    project: './tsconfig.json'
   },
   env: {
     node: true,
   },
   rules: {
-    strict: [2, 'global'],
     'prefer-destructuring': 0,
   },
   overrides: [
     {
       files: [
-        '**/__tests__/*.test.js',
-        '**/__mocks__/*.js',
-        'jest.setup.js',
+        '**/__tests__/*.ts',
+        '**/__mocks__/*.ts',
       ],
-      extends: ['plugin:jest/all'],
+      extends: [
+        'airbnb-typescript',
+        'plugin:@typescript-eslint/recommended',
+        'plugin:@typescript-eslint/recommended-requiring-type-checking',
+        'plugin:jest/all',
+      ],
       parserOptions: {
-        sourceType: 'script',
+        project: './tsconfig.json'
       },
       env: {
         'jest/globals': true,

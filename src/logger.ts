@@ -1,10 +1,8 @@
-'use strict';
+import * as path from 'path';
+import winston, { Logger } from 'winston';
+import { NODE_ENV, LOG_PATH } from './env';
 
-const path = require('path');
-const winston = require('winston');
-const { NODE_ENV, LOG_PATH } = require('./env');
-
-module.exports = function createLogger() {
+export default function createLogger(): Logger {
   const logger = winston.createLogger({
     level: 'info',
     format: winston.format.simple(),
@@ -21,10 +19,5 @@ module.exports = function createLogger() {
     logger.add(new winston.transports.Console({ format: winston.format.simple() }));
   }
 
-  return {
-    ...logger,
-    serviceMessage(service, message) {
-      logger.info(`[${service.toUpperCase()}] ${message}`);
-    },
-  };
-};
+  return logger;
+}
