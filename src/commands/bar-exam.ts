@@ -1,10 +1,10 @@
-import { ClientUser, Message } from 'discord.js';
+import { User, Message } from 'discord.js';
 import { Deps } from '../types';
 
 export default async function barExamCommand(
   message: Message,
   { logger }: Deps,
-  recipient: ClientUser,
+  args: string[],
 ): Promise<void> {
   await recipient.send(`
     ${message.author.tag} has initiated a check to see if you're potentially having memory

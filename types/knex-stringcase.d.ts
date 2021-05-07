@@ -1,5 +1,6 @@
 import { Knex } from 'knex';
 
 declare module 'knex-stringcase' {
-  export default function (config: Knex.Config): Knex.Config;
+  function knexStringcase(config: Knex.Config): Knex.Config;
+  export = knexStringcase;
 }

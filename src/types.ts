@@ -5,3 +5,8 @@ export interface Deps {
   logger: Logger;
   db: Knex;
 }
+
+export interface Usage {
+  syntax: string;
+  examples: string[];
+}

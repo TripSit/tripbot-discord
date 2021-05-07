@@ -15,6 +15,8 @@ module.exports = {
   },
   rules: {
     'prefer-destructuring': 0,
+    '@typescript-eslint/ban-ts-comment': 0,
+    '@typescript-eslint/no-misused-promises': [2, { checksVoidReturn: false }],
   },
   overrides: [
     {

@@ -3,45 +3,25 @@ import * as commands from '../commands';
 import { COMMAND_PREFIX } from '../env';
 import { Deps } from '../types';
 
+type Command = (message: Message, deps: Deps, args: string[]) => Promise<void>;
+
 export default function command(client: Client, deps: Deps): void {
   const { logger } = deps;
 
-  client.on('message', (message: Message) => {
-    // Only recognize messages starting with the command prefix
-    if (message.content.trim().startsWith(COMMAND_PREFIX)) {
-      // Break message up into arguments
-      const [commandName, ...rawArgs] = message.content.trim().slice(1).split(/\s+/g);
+  client.on('message', async (message: Message) => {
+    // Only recognize messages starting with the command prefix from non-bot users
+    if (!message.content.trim().startsWith(COMMAND_PREFIX) || message.author.bot) return;
 
-      switch (commandName) {
-        case 'help':
-          commands.help(message);
-          break;
-        case 'barExam':
-          commands.barExam(message, deps);
-          break;
-        default:
-          throw new Error();
-      }
-      const cmd = commands[commandName];
+    // Parse the message contents to remove the command prefix, and seperate arguments by whitespace
+    const [commandName, ...args]: string[] = message.content.trim().slice(1).split(/\s+/g);
 
-      try {
-        if (!cmd) await message.channel.send('Command not found.');
-        else {
-        //   // Parses @mentions from arguments
-          const args = rawArgs.map((arg) => {
-            if (/^<@.+>$/.test(arg)) {
-              const mention = client.users.cache.get(arg.replace(/(^<@!?|>$)/g, ''));
-              if (mention) return mention;
-            }
-            return arg;
-          });
-
-          await cmd({ message, client, logger }, ...args);
-        }
-      // } catch (ex) {
-        // logger.error(ex);
-        // await message.channel.send('There was an error processing your request.');
-      }
+    const cmd = (commands as Record<string, Command>)[commandName];
+    if (!cmd) await message.reply(`Command not found: ${commandName}`);
+    else { // Command exists
+      await cmd(message, deps, args).catch((ex) => {
+        logger.error(`Error when running command ${commandName}`, args, ex);
+        return message.reply('There was an error running your command.');
+      });
     }
   });
 }

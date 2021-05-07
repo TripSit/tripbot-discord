@@ -1,5 +1,5 @@
 import { MessageReaction, GuildMember, Client } from 'discord.js';
-import { TRIPSIT_GUILD_ID, RULES_VERIFY_ROLE_ID, RULES_VERIFICATION_EMOJI_ID } from '../env';
+import { RULES_VERIFY_ROLE_ID, RULES_VERIFICATION_EMOJI_ID } from '../env';
 import { Deps } from '../types';
 
 export default function rulesVerification(client: Client, { logger, db }: Deps): void {
@@ -11,14 +11,8 @@ export default function rulesVerification(client: Client, { logger, db }: Deps):
     ) {
       db.transaction((trx) => trx.insert({
         discordId: member.user.id,
-        createdAt: member.user.createdAt,
-      })
-        .then(() => client.guilds.fetch(TRIPSIT_GUILD_ID))
-        .then((tripsitGuild) => tripsitGuild.roles.fetch(RULES_VERIFY_ROLE_ID))
-        .then((verifiedRole) => {
-          if (!verifiedRole) throw new Error('Verification role not found.');
-          return verifiedRole.setPermissions(RULES_VERIFY_ROLE_ID);
-        }))
+        verifiedAt: member.user.createdAt,
+      }))
         .catch((ex) => {
           logger.error('Could not add user to database', ex);
           return member.createDM().then((dm) => dm
