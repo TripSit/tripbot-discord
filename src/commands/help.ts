@@ -1,6 +1,4 @@
-import { Message } from 'discord.js';
-import formatUsage from '../utils/format-usage';
-import { Deps } from '../types';
+import { Command } from '../types';
 
 const GENERIC_HELP_MESSAGE = `
 Generic help message placeholder.
@@ -14,7 +12,9 @@ interface HelpArgs {
   command?: string;
 }
 
-const helpCommand = {
+const helpCommand: Command<HelpArgs> = {
+  name: 'Help',
+  description: 'Supplies user with helpful information about the usage of this bot.',
   usage: {
     syntax: '~help [command name]',
     examples: [
@@ -23,13 +23,13 @@ const helpCommand = {
     ],
   },
 
-  async parseArgs(message: Message, deps: Deps, args: string[]): Promise<HelpArgs | null> {
-    if (args.length > 1) return message.reply(formatUsage(this.usage)).then(() => null);
+  parseArgs(message, deps, args) {
+    if (args.length > 1) return null;
     if (!args[0]) return {};
     return { command: args[0] };
   },
 
-  async execute(message: Message, deps: Deps, { command }: HelpArgs): Promise<void> {
+  async execute(message, deps, { command }) {
     if (!command) await message.reply(GENERIC_HELP_MESSAGE);
   },
 };

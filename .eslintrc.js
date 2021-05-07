@@ -41,6 +41,23 @@ module.exports = {
         'jest/no-hooks': 0,
         'jest/prefer-expect-assertions': 0,
         'jest/no-disabled-tests': 0,
+        '@typescript-eslint/unbound-method': 0,
+      },
+    },
+    {
+      files: [
+        '.eslintrc.js',
+        'jest.config.js',
+      ],
+      extends: [
+        'eslint:recommended',
+      ],
+      parser: 'esprima',
+      parserOptions: {
+        sourceType: 'script',
+      },
+      rules: {
+        strict: [2, 'global'],
       },
     },
   ],

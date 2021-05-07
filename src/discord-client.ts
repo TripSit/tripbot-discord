@@ -3,7 +3,7 @@ import * as events from './events';
 import { DISCORD_BOT_TOKEN } from './env';
 import { Deps } from './types';
 
-export default async function createDiscordClient(deps: Deps): Promise<Client> {
+export default async function createDiscordClient(deps: Omit<Deps, 'cilent'>): Promise<Client> {
   const { logger } = deps;
 
   const client = new Client();

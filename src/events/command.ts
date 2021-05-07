@@ -1,9 +1,22 @@
 import { Client, Message } from 'discord.js';
 import * as commands from '../commands';
 import { COMMAND_PREFIX } from '../env';
-import { Deps } from '../types';
+import { Deps, Usage } from '../types';
 
-type Command = (message: Message, deps: Deps, args: string[]) => Promise<void>;
+function formatUsage({ syntax, examples }: Usage): string {
+  if (!examples.length) throw new Error('Usage must contain examples.');
+
+  return `
+Invalid command.
+
+USAGE: ${syntax}
+
+*Examples:*
+\`\`\`
+${examples.join('\n')}
+\`\`\`
+  `.trim();
+}
 
 export default function command(client: Client, deps: Deps): void {
   const { logger } = deps;
@@ -13,15 +26,25 @@ export default function command(client: Client, deps: Deps): void {
     if (!message.content.trim().startsWith(COMMAND_PREFIX) || message.author.bot) return;
 
     // Parse the message contents to remove the command prefix, and seperate arguments by whitespace
-    const [commandName, ...args]: string[] = message.content.trim().slice(1).split(/\s+/g);
+    const [commandName, ...rawArgs]: string[] = message.content.trim().slice(1).split(/\s+/g);
 
-    const cmd = (commands as Record<string, Command>)[commandName];
+    // Find any matching command case insensitively
+    const [, cmd] = Object.entries(commands)
+      .find(([k]) => k.toLowerCase() === commandName.toLowerCase()) || [];
+
+    // Notify user if command does not exist
     if (!cmd) await message.reply(`Command not found: ${commandName}`);
     else { // Command exists
-      await cmd(message, deps, args).catch((ex) => {
-        logger.error(`Error when running command ${commandName}`, args, ex);
-        return message.reply('There was an error running your command.');
-      });
+      const args = cmd.parseArgs(message, deps, rawArgs);
+      if (!args) await message.reply(formatUsage(cmd.usage));
+      else {
+        type Args = typeof args;
+        type Execute = (message: Message, deps: Deps, args: Args) => Promise<void>;
+        await (cmd.execute as Execute)(message, deps, args).catch((ex) => {
+          logger.error(`Error when running command ${cmd.name}`, args, ex);
+          return message.reply('There was an error running your command.');
+        });
+      }
     }
   });
 }
