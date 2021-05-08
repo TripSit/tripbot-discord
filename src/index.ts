@@ -1,11 +1,11 @@
 import knex from 'knex';
 import knexConfig from '../knexfile';
-import createDiscordClient from './discord-client';
+import discordClient from './discord-client';
 import createLogger from './logger';
 
 const logger = createLogger();
 
-createDiscordClient({
+discordClient({
   logger,
   db: knex(knexConfig),
 })

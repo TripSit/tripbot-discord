@@ -14,7 +14,7 @@ interface HelpArgs {
 
 const helpCommand: Command<HelpArgs> = {
   name: 'Help',
-  description: 'Supplies user with helpful information about the usage of this bot.',
+  description: 'Supplies user with helpful information about the usage of this bot',
   usage: {
     syntax: '~help [command name]',
     examples: [

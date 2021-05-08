@@ -3,10 +3,11 @@ import * as events from './events';
 import { DISCORD_BOT_TOKEN } from './env';
 import { Deps } from './types';
 
-export default async function createDiscordClient(deps: Omit<Deps, 'cilent'>): Promise<Client> {
-  const { logger } = deps;
+export default async function createDiscordClient(partialDeps: Omit<Deps, 'client'>): Promise<Client> {
+  const { logger } = partialDeps;
 
   const client = new Client();
+  const deps: Deps = { ...partialDeps, client };
 
   client.on('ready', () => {
     logger.info('Tripbot started');
