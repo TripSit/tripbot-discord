@@ -26,7 +26,7 @@ export default function command(client: Client, deps: Deps): void {
     if (!message.content.trim().startsWith(COMMAND_PREFIX) || message.author.bot) return;
 
     // Parse the message contents to remove the command prefix, and seperate arguments by whitespace
-    const [commandName, ...rawArgs]: string[] = message.content.trim().slice(1).split(/\s+/g);
+    const [commandName, ...rawArgs] = message.content.trim().slice(1).split(/\s+/g);
 
     // Find any matching command case insensitively
     const [, cmd] = Object.entries(commands)

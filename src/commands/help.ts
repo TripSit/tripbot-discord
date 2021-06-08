@@ -31,6 +31,9 @@ const helpCommand: Command<HelpArgs> = {
 
   async execute(message, deps, { command }) {
     if (!command) await message.reply(GENERIC_HELP_MESSAGE);
+    else {
+      const match = commands[command];
+    }
   },
 };
 
