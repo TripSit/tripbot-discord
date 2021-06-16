@@ -1,4 +1,4 @@
-import { Command } from './types';
+import { Command } from '../types';
 
 const barExamCommand: Command = {
   name: 'Bar Exam',
@@ -10,7 +10,7 @@ const barExamCommand: Command = {
     ],
   },
 
-  async execute(message, deps, args) {
+  async execute(message) {
     await message.reply('AYYO');
   },
 };

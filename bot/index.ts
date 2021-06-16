@@ -6,7 +6,7 @@ import { Deps } from './types';
 export default async function createBot(baseDeps: Omit<Deps, 'client'>): Promise<Client> {
   const { logger } = baseDeps;
   const client = new Client();
-  const deps = { ...baseDeps, client };
+  const deps: Deps = { ...baseDeps, client };
 
   client.on('ready', () => {
     logger.info('Tripbot started');

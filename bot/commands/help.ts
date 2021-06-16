@@ -1,4 +1,4 @@
-import { CommandArgsError, Command } from './types';
+import { CommandArgsError, Command } from '../types';
 import barExam from './bar-exam';
 
 const GENERIC_HELP_MESSAGE = `
@@ -7,21 +7,11 @@ Generic help message placeholder.
 \`\`\`
 Testing codeblocks too
 \`\`\`
-`;
+`.trim();
 
 const commands: Record<string, Command> = {
   barexam: barExam,
 };
-
-function usageMessage(command: Command): string {
-  return `
-**${command.name}**
-${command.description}
-
-Usage: \`${command.usage.syntax}\`
-${command.usage.examples.map((acc, example) => `\`${example}\``).join('\n')}
-  `;
-}
 
 const helpCommand: Command = {
   name: 'Help',
@@ -34,23 +24,33 @@ const helpCommand: Command = {
     ],
   },
 
-  async execute(message, deps, [commandName, ...args]) {
-    if (args.length > 1) throw new CommandArgsError(`Command can only take up to one argument. You provided ${args.length}.`);
+  async execute(message, deps, [commandName, ...remainingArgs]) {
+    if (remainingArgs.length) {
+      throw new CommandArgsError(
+        `Command can only take up to one argument. You provided ${remainingArgs.length + 1}.`,
+      );
+    }
     if (!commandName) await message.reply(GENERIC_HELP_MESSAGE);
-    const command = commands[commandName];
-    if (!command) throw new CommandArgsError(`Command does not exist '${commandName}'.`);
+    else {
+      const command = commands[commandName];
+      if (!command) throw new CommandArgsError(`Command does not exist '${commandName}'.`);
 
-    await message.reply(
-      `
+      const examples = command.usage.examples
+        .map((example) => `\`${example}\``)
+        .join('\n');
+
+      await message.reply(
+        `
 **${command.name}**
 ${command.description}
 
 Usage: \`${command.usage.syntax}\`
 
 *Examples:*
-${command.usage.examples.map((example) => `\`${example}\``).join('\n')}
-      `,
-    );
+${examples}
+        `.trim(),
+      );
+    }
   },
 };
 

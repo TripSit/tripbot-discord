@@ -15,9 +15,16 @@ module.exports = {
   env: {
     node: true,
   },
+  rules: {
+    '@typescript-eslint/no-misused-promises': 0,
+    '@typescript-eslint/no-floating-promises': 0,
+  },
   overrides: [
     {
-      files: ['**/*.test.ts'],
+      files: [
+        '**/__tests__/*.test.ts',
+        '**/__mocks__/*.ts',
+      ],
       plugins: ['jest'],
       extends: [
         'airbnb-typescript',
@@ -30,7 +37,23 @@ module.exports = {
       },
     },
     {
-      files: ['./.eslintrc.js'],
+      files: ['**/__tests__/*.test.ts'],
+      rules: {
+        '@typescript-eslint/unbound-method': 0,
+      },
+    },
+    {
+      files: ['**/__mocks__/*.ts'],
+      rules: {
+        'max-classes-per-file': 0,
+        'import/prefer-default-export': 0,
+      },
+    },
+    {
+      files: [
+        '.eslintrc.js',
+        'jest.config.js',
+      ],
       parserOptions: {
         sourceType: 'script',
       },

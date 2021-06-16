@@ -5,7 +5,8 @@
     "./env.ts",
     "./knexfile.ts",
     "./logger.ts",
-    "./migrations/*.ts"
+    "./migrations/*.ts",
+    "**/__mocks__/*.ts"
   ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
