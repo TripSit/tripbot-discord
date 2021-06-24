@@ -11,6 +11,7 @@ export const DISCORD_CLIENT_SECRET: string = process.env.DISCORD_CLIENT_SECRET!;
 export const DISCORD_BOT_TOKEN: string = process.env.DISCORD_BOT_TOKEN!;
 
 export const LOG_PATH: string = path.resolve(process.env.LOG_PATH!);
+export const CONFIG_PATH: string = path.resolve(process.env.CONFIG_PATH!);
 
 export const POSTGRES_HOST: string = process.env.POSTGRES_HOST!;
 export const POSTGRES_USER: string = process.env.POSTGRES_USER!;

@@ -24,6 +24,7 @@ module.exports = {
       files: [
         '**/__tests__/*.test.ts',
         '**/__mocks__/*.ts',
+        'jest.setup.ts',
       ],
       plugins: ['jest'],
       extends: [

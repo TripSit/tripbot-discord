@@ -1,0 +1,7 @@
+{
+  " {": ["~", ","],
+  "wordBlacklist": {
+    "global": [],
+    "channels": []
+  }
+}

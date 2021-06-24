@@ -3,10 +3,14 @@
     "./bot/**/*.ts",
     "./index.ts",
     "./env.ts",
+    "./config.ts",
     "./knexfile.ts",
     "./logger.ts",
     "./migrations/*.ts",
-    "**/__mocks__/*.ts"
+    "**/__tests__/*.ts",
+    "**/__mocks__/*.ts",
+    "./jest.setup.ts",
+    "./tests/**/*.ts"
   ],
   "compilerOptions": {
     /* Visit https://aka.ms/tsconfig.json to read more about this file */
