@@ -1,0 +1,15 @@
+{
+  "ignore": [
+    "*.test.ts"
+  ],
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "execMap": {
+    "ts": "node --inspect -r ts-node/register ./src/index.ts"
+  },
+  "watch": [
+    "src/**/*"
+  ],
+  "ext": "js,json"
+}

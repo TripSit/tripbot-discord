@@ -1,9 +1,11 @@
 import { Client } from 'discord.js';
 import commandsEvent from './events/commands';
-import { DISCORD_BOT_TOKEN } from '../env';
+import { DISCORD_BOT_TOKEN } from './env';
 import { Deps } from './types';
 
-export default async function createBot(baseDeps: Omit<Deps, 'client'>): Promise<Client> {
+type BaseDeps = Omit<Deps, 'client'>;
+
+export default async function createDiscordClient(baseDeps: BaseDeps): Promise<Client> {
   const { logger } = baseDeps;
   const client = new Client();
   const deps: Deps = { ...baseDeps, client };

@@ -2,46 +2,42 @@
 
 const path = require('path');
 
+const BASE_EXTENDS = [
+  'airbnb-typescript',
+  'plugin:@typescript-eslint/recommended',
+  'plugin:@typescript-eslint/recommended-requiring-type-checking',
+];
+
+const BASE_RULES = {
+  '@typescript-eslint/no-misused-promises': 0,
+  '@typescript-eslint/no-floating-promises': 0,
+  '@typescript-eslint/lines-between-class-members': 0,
+  '@typescript-eslint/unbound-method': 0,
+};
+
 module.exports = {
   root: true,
-  extends: [
-    'airbnb-typescript',
-    'plugin:@typescript-eslint/recommended',
-    'plugin:@typescript-eslint/recommended-requiring-type-checking',
-  ],
+  extends: BASE_EXTENDS,
   parserOptions: {
-    project: path.resolve('./tsconfig.json'),
+    project: path.resolve('./tsconfig.eslint.json'),
   },
   env: {
     node: true,
   },
-  rules: {
-    '@typescript-eslint/no-misused-promises': 0,
-    '@typescript-eslint/no-floating-promises': 0,
-  },
+  rules: BASE_RULES,
   overrides: [
     {
       files: [
         '**/__tests__/*.test.ts',
         '**/__mocks__/*.ts',
-        'jest.setup.ts',
+        'jest.*.ts',
       ],
       plugins: ['jest'],
-      extends: [
-        'airbnb-typescript',
-        'plugin:@typescript-eslint/recommended',
-        'plugin:@typescript-eslint/recommended-requiring-type-checking',
-        'plugin:jest/recommended',
-      ],
+      extends: BASE_EXTENDS.concat('plugin:jest/recommended'),
       env: {
         jest: true,
       },
-    },
-    {
-      files: ['**/__tests__/*.test.ts'],
-      rules: {
-        '@typescript-eslint/unbound-method': 0,
-      },
+      rules: BASE_RULES,
     },
     {
       files: ['**/__mocks__/*.ts'],

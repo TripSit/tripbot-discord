@@ -1,0 +1,11 @@
+{
+  "extends": "./tsconfig.json",
+  "include": [
+    "./src/**/*.ts",
+    "./migrations/*.ts",
+    "**/__tests__/*.ts",
+    "**/__mocks__/*.ts",
+    "./jest.setup.ts",
+    "./tests/**/*.ts"
+  ]
+}

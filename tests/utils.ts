@@ -2,10 +2,9 @@ import knex, { Knex } from 'knex';
 import mockKnex from 'mock-knex';
 import { Client, Message } from 'discord.js';
 import { MockMessage } from 'jest-discordjs-mocks';
-import Config from '../config';
-import knexConfig from '../knexfile';
-import createLogger from '../logger';
-import { Deps } from '../bot/types';
+import knexConfig from '../src/knexfile';
+import createLogger from '../src/logger';
+import { Deps } from '../src/types';
 
 export function createMockDb(): Knex {
   const db = knex(knexConfig);
@@ -24,12 +23,5 @@ export function createMockDeps(db: Knex = createMockDb()): Deps {
     db,
     client: new Client(),
     logger: createLogger(),
-    config: new Config({
-      commandPrefixes: ['~', ','],
-      wordBlacklist: {
-        global: [],
-        channels: [],
-      },
-    }),
   };
 }

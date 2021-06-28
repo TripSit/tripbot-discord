@@ -16,7 +16,7 @@ jest.mock('../bar-exam', () => ({
 
 test('Does not allow more than one argument', async () => {
   const message = createMockMessage();
-  const result = help.execute(message, createMockDeps(), ['ay', 'yo', 'dawg'],);
+  const result = help.execute(message, createMockDeps(), ['ay', 'yo', 'dawg']);
   await expect(result).rejects.toThrow('Command can only take up to one argument. You provided 3.');
   await expect(result).rejects.toBeInstanceOf(CommandArgsError);
   expect(message.reply).not.toHaveBeenCalled();

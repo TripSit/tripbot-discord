@@ -1,26 +1,30 @@
 import * as commandModules from '../commands';
+import { COMMAND_PREFIXES } from '../env';
 import {
   Deps,
   Command,
-  CommandArgsError,
   ParentCommand,
+  CommandArgsError,
+  ModelValidationError,
 } from '../types';
 
 const commands = Object.fromEntries(Object.entries(commandModules)
   .map(([k, v]) => [k.toLowerCase(), v]));
 
 export default function applyCommandEvent(deps: Deps): void {
-  const { client, config } = deps;
+  const { client, logger } = deps;
 
   client.on('message', async (message) => {
     async function execute(command: Command, args: string[]): Promise<void> {
-      await command.execute(message, deps, args)
-        .catch((ex: Error) => message.reply(ex instanceof CommandArgsError
-          ? ex.message
-          : 'An unknown error has occured.'));
+      await command.execute(message, deps, args).catch((ex: Error) => {
+        const shouldDisplayError = ex instanceof CommandArgsError
+          || ex instanceof ModelValidationError;
+        if (!shouldDisplayError) logger.error(ex);
+        message.reply(shouldDisplayError ? ex.message : 'An unknown error has occured.');
+      });
     }
 
-    if (config.commandPrefixes.includes(message.content.trim().charAt(0)) && !message.author.bot) {
+    if (COMMAND_PREFIXES.includes(message.content.trim().charAt(0)) && !message.author.bot) {
       const [commandName, ...args] = message.content.trim().slice(1).split(/\s+/g);
       const command = commands[commandName.toLowerCase()];
 

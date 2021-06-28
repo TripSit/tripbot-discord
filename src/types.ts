@@ -2,15 +2,14 @@ import { Client, Message } from 'discord.js';
 import makeError from 'make-error';
 import { Knex } from 'knex';
 import { Logger } from 'winston';
-import Config from '../config';
 
 export const CommandArgsError = makeError('CommandArgsError');
+export const ModelValidationError = makeError('ModelValidationError');
 
 export interface Deps {
   db: Knex;
   logger: Logger;
   client: Client;
-  config: Config;
 }
 
 export interface Command {
@@ -27,6 +26,6 @@ export interface ParentCommand {
   name: string;
   description: string;
   commands: {
-    [commandName: string]: Command;
+    [name: string]: Command;
   };
 }

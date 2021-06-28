@@ -1,4 +1,5 @@
 import { Channel } from 'discord.js';
+import { WordBlacklist } from '../../models';
 import { Command, CommandArgsError } from '../../types';
 
 const wordBlacklistAdd: Command = {
@@ -12,7 +13,7 @@ const wordBlacklistAdd: Command = {
     ],
   },
 
-  async execute(message, { config }, args) {
+  async execute(message, deps, args) {
     let channel: Channel | undefined;
     let word: string;
     if (args.length === 1) [word] = args;
@@ -22,7 +23,7 @@ const wordBlacklistAdd: Command = {
       channel = message.mentions.channels.first();
       if (!channel) throw new CommandArgsError(`Channel does not exist '${channelName}'.`);
     } else throw new CommandArgsError('Invalid number of parameters.');
-    await config.addWordBlacklist(word, channel?.id);
+    await WordBlacklist.create(word, message.author.id, channel?.id);
     await message.reply('Word added to blacklist.');
   },
 };

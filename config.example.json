@@ -1,5 +1,5 @@
 {
-  " {": ["~", ","],
+  "commandPrefixes": ["~", ","],
   "wordBlacklist": {
     "global": [],
     "channels": []
