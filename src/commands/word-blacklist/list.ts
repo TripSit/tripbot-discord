@@ -1,4 +1,4 @@
-import { WordBlacklist } from '../../models';
+import { WordBlacklist } from '@tripsit/db';
 import { Command, CommandArgsError } from '../../types';
 
 const wordBlacklistList: Command = {
@@ -22,9 +22,9 @@ const wordBlacklistList: Command = {
       throw new CommandArgsError('Message must be made in the associated server.');
     }
 
-    const words = await WordBlacklist.list(message.mentions.channels.first()?.id)
-      .then((records) => records
-        .map((record, i) => `${i + 1}. ${record.word}`)
+    const words = await WordBlacklist.find()
+      .then((blacklist) => blacklist
+        .map(({ word }, i) => `${i + 1}. ${word}`)
         .join('\n'));
 
     await message.reply(`

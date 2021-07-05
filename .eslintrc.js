@@ -9,6 +9,7 @@ const BASE_EXTENDS = [
 ];
 
 const BASE_RULES = {
+  'import/no-extraneous-dependencies': 0,
   '@typescript-eslint/no-misused-promises': 0,
   '@typescript-eslint/no-floating-promises': 0,
   '@typescript-eslint/lines-between-class-members': 0,

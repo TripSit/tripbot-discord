@@ -1,5 +1,5 @@
+import { WordBlacklist } from '@tripsit/db';
 import { Channel } from 'discord.js';
-import { WordBlacklist } from '../../models';
 import { Command, CommandArgsError } from '../../types';
 
 const wordBlacklistAdd: Command = {
@@ -23,7 +23,10 @@ const wordBlacklistAdd: Command = {
       channel = message.mentions.channels.first();
       if (!channel) throw new CommandArgsError(`Channel does not exist '${channelName}'.`);
     } else throw new CommandArgsError('Invalid number of parameters.');
-    await WordBlacklist.create(word, message.author.id, channel?.id);
+
+    const wordBlacklist = new WordBlacklist();
+    wordBlacklist.word = word;
+    await wordBlacklist.save();
     await message.reply('Word added to blacklist.');
   },
 };
