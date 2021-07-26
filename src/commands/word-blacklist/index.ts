@@ -1,6 +1,6 @@
 import list from './list';
 import add from './add';
-import { ParentCommand } from '../../types';
+import type { ParentCommand } from '../../types';
 
 const wordBlacklistCommand: ParentCommand = {
   name: 'Word Blacklist',

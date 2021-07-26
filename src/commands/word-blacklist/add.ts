@@ -1,5 +1,5 @@
 import { WordBlacklist } from '@tripsit/db';
-import { Channel } from 'discord.js';
+import type { Channel } from 'discord.js';
 import { Command, CommandArgsError } from '../../types';
 
 const wordBlacklistAdd: Command = {
